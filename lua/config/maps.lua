@@ -5,10 +5,10 @@ local function map(mode, lhs, rhs)
 end
 
 -- Resize window with Ctrl + arrow keys
-vim.api.nvim_set_keymap('n', '<C-Left>', ':vertical resize -2<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<C-Right>', ':vertical resize +2<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<C-Up>', ':resize +2<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<C-Down>', ':resize -2<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-Left>', ':vertical resize +2<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-Right>', ':vertical resize -2<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-Up>', ':resize -2<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-Down>', ':resize =2<CR>', { noremap = true, silent = true })
 
 -- Navigate buffers with Alt + [ and Alt + ]
 vim.api.nvim_set_keymap('n', '<A-[>', ':bprev<CR>', { noremap = true, silent = true })
@@ -56,9 +56,20 @@ end
 
 vim.keymap.set("n", "<leader>t", toggle_func, {noremap=true})
 
--- Map Ctrl+w to close the current buffer
-vim.api.nvim_set_keymap('n', '<C-w>', ':bd<CR>', { noremap = true, silent = true })
+-- Function to close the current buffer without closing the window
+local function close_buffer_without_closing_window()
+  local current_buf = vim.api.nvim_get_current_buf()
+  if #vim.fn.getbufinfo({ buflisted = 1 }) > 1 then
+    vim.cmd('bd')
+  else
+    vim.cmd('enew')
+  end
+  vim.cmd('bwipeout ' .. current_buf)
+end
+
+-- Key mapping in normal mode for <leader>w
+vim.api.nvim_set_keymap('n', '<C-w>', ':bp<bar>sp<bar>bn<bar>bd<CR>', { noremap = true, silent = true })
 
 -- Map Ctrl+Q to close all buffers
-vim.api.nvim_set_keymap('n', '<C-Q>', ':bufdo bd<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-q>', ':qa!', { noremap = true, silent = true })
 
