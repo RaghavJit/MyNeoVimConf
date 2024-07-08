@@ -24,6 +24,38 @@ vim.api.nvim_set_keymap('n', '<leader>o', ':Neotree focus<CR>', { noremap = true
 
 vim.api.nvim_set_keymap('n', '<leader>e', ':Neotree toggle<CR>', { noremap = true, silent = true })
 
+-- Custom function to toggle both ToggleTerm and Neotree
+local function toggle_func()
+    local has_toggleterm = false
+    local has_neotree = false
+
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_get_name(buf):match("toggleterm") then
+            has_toggleterm = true
+            break
+        end
+    end
+
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_get_name(buf):match("neo") then
+            has_neotree = true
+            break
+        end
+    end
+
+    if toggleterm_found then
+        vim.cmd("ToggleTerm")
+    else
+        vim.cmd("ToggleTerm")
+        if (has_neotree) then
+            vim.cmd("Neotree toggle")
+            vim.cmd("Neotree toggle")
+        end
+  end
+end
+
+vim.keymap.set("n", "<leader>t", toggle_func, {noremap=true})
+
 -- Map Ctrl+w to close the current buffer
 vim.api.nvim_set_keymap('n', '<C-w>', ':bd<CR>', { noremap = true, silent = true })
 
