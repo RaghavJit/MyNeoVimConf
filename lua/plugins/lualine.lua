@@ -4,7 +4,7 @@ return {
     config = function()
         require("lualine").setup{
           options = {
-            disabled_filetypes = { 'packer', 'huehue-tree' }
+            disabled_filetypes = { 'packer', 'neo-tree', 'undotree' }
           }      
         }
     end,

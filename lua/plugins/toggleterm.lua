@@ -18,10 +18,10 @@ return {
         float_opts = {
             border = "curved",
             highlights = {
-                border = "Normal",
-                background = "Normal",
+                border = "double",
+                background = "winhighlight",
             },
-        },
+        }
     }) 
 
     local keymap = vim.keymap.set
